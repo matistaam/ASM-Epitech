@@ -33,7 +33,7 @@ clean:
 	$(RM) $(OBJ)
 
 fclean: clean
-	$(RM) $(NAME)
+	$(RM) $(NAME) my_program
 
 re: fclean all
 
