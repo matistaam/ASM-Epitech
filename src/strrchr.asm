@@ -9,9 +9,9 @@ BITS 64
 section .note.GNU-stack noexec
 
 section .text
-    global my_strrchr
+    global strrchr
 
-my_strrchr:
+strrchr:
     mov rax, rdi                         ; Sauvergarde l'addresse de la chaîne
     xor rcx, rcx                         ; Initialise rcx à NULL (dernière occurence)
 
