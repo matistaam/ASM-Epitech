@@ -15,7 +15,7 @@ strchr:
     mov rax, rdi                         ; Sauvergarde l'addresse de la chaîne
 
 .loop:
-    cmp byte [rax], sil                  ; Compare avec le caractère recherché
+    cmp byte [rax], sil                  ; Compare avec le caractère recherché (rsi = 64-bit & si = 32-bit & sil = 8-bit)
     je .found                            ; Si égal, saute à .found
 
     cmp byte [rax], 0                    ; Vérifie si fin de chaîne
