@@ -9,9 +9,9 @@ BITS 64
 section .note.GNU-stack noexec
 
 section .text
-    global my_memmove
+    global memmove
 
-my_memmove:
+memmove:
     mov rax, rdi                    ; Sauvegarde le pointeur destination pour le retour
     mov rcx, rdx                    ; Met le compteur dans rcx
 
