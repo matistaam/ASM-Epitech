@@ -12,6 +12,8 @@ section .text
     global strncmp
 
 strncmp:
+    push rbp
+    mov rbp, rsp
     xor rax, rax                    ; Initialise le registre de retour à 0
     xor rcx, rcx                    ; Initialise le compteur à 0
 
@@ -38,8 +40,10 @@ strncmp:
     movzx rax, al                   ; Étend al à 64 bits avec des zéros
     movzx r8, r8b                   ; Étend r8b à 64 bits avec des zéros
     sub rax, r8                     ; Calcule la différence
+    leave
     ret
 
 .equal:
     xor rax, rax                    ; Met 0 dans rax (chaînes égales)
+    leave
     ret
