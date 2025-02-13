@@ -9,9 +9,9 @@ BITS 64
 section .note.GNU-stack noexec
 
 section .text
-    global my_memset
+    global memset
 
-my_memset:
+memset:
     push rbp
     mov rbp, rsp
     mov rax, rdi                         ; Sauvegarde et retourne le pointeur original
