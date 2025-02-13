@@ -12,6 +12,8 @@ section .text
     global memmove
 
 memmove:
+    push rbp
+    mov rbp, rsp
     mov rax, rdi                    ; Sauvegarde le pointeur destination pour le retour
     mov rcx, rdx                    ; Met le compteur dans rcx
 
@@ -43,4 +45,5 @@ memmove:
     jnz .forward                   ; Continue tant que rcx != 0
 
 .done:
+    leave
     ret
