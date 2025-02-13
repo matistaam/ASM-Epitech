@@ -9,9 +9,11 @@ BITS 64
 section .note.GNU-stack noexec
 
 section .text
-    global memset
+    global my_memset
 
-memset:
+my_memset:
+    push rbp
+    mov rbp, rsp
     mov rax, rdi                         ; Sauvegarde et retourne le pointeur original
     mov rcx, rdx                         ; Met le compteur n dans rcx
     mov al, sil                          ; Met le caractère de remplissage dans al
@@ -26,5 +28,5 @@ memset:
     jnz .loop                           ; Continue tant que rcx != 0
 
 .done:
-    mov rax, rdi                        ; Retourne le pointeur original
+    leave
     ret
