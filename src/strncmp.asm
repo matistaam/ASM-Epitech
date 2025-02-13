@@ -14,7 +14,6 @@ section .text
 strncmp:
     push rbp
     mov rbp, rsp
-    xor rax, rax                    ; Initialise le registre de retour à 0
     xor rcx, rcx                    ; Initialise le compteur à 0
 
     test rdx, rdx                   ; Vérifie si n == 0
