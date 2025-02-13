@@ -9,9 +9,9 @@ BITS 64                                  ; Mode 64 bits
 section .note.GNU-stack noexec           ; Marque la stack comme non exécutable
 
 section .text                            ; Section pour le code
-    global my_strlen                        ; Point d'entrée du programme
+    global strlen                        ; Point d'entrée du programme
 
-my_strlen:                                  ; Étiquette de début du programme
+strlen:                                  ; Étiquette de début du programme
     push rbp                             ; Sauvegarde la base de la stack
     mov rbp, rsp                         ; Initialise la base de la stack
     mov rcx, 0                           ; Initialise le compteur (rax) à 0
