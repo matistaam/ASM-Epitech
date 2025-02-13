@@ -12,6 +12,8 @@ section .text
     global strchr
 
 strchr:
+    push rbp
+    mov rbp, rsp
     mov rax, rdi                         ; Sauvergarde l'addresse de la chaîne
 
 .loop:
@@ -25,8 +27,10 @@ strchr:
     jmp .loop                           ; Retourne au début de la boucle
 
 .found:
+    leave
     ret
 
 .not_found:
     xor rax, rax
+    leave
     ret
