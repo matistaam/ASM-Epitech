@@ -12,45 +12,41 @@ section .text
     global strstr
 
 strstr:
-    push rbp
-    mov rbp, rsp
-    mov rax, rdi                    ; Sauvegarde le pointeur de la chaîne source
-
+    mov rax, rdi                   ; Sauvegarde le pointeur de la chaîne pour le retour
     cmp byte [rsi], 0              ; Vérifie si la sous-chaîne est vide
     je .done
 
 .outer_loop:
-    mov cl, byte [rdi]             ; Charge un caractère de la chaîne source
-    cmp cl, 0                      ; Vérifie si fin de chaîne
-    je .not_found                  ; Si fin atteinte, sous-chaîne non trouvée
+    movzx ecx, byte [rdi]          ; Charge un caractère de la chaîne
+    test cl, cl                    ; Vérifie si fin de chaîne
+    jz .not_found
 
     mov rax, rdi                   ; Sauvegarde la position actuelle
     mov rdx, rsi                   ; Charge le pointeur de la sous-chaîne
 
 .inner_loop:
-    mov cl, byte [rdx]             ; Charge un caractère de la sous-chaîne
-    cmp cl, 0                      ; Vérifie si fin de sous-chaîne
-    je .done                       ; Si fin atteinte, sous-chaîne trouvée
+    movzx ecx, byte [rdx]          ; Charge un caractère de la sous-chaîne
+    test cl, cl                    ; Vérifie si fin de sous-chaîne
+    jz .done
 
-    mov ch, byte [rdi]             ; Charge un caractère de la position actuelle
-    cmp ch, 0                      ; Vérifie si fin de chaîne
-    je .not_found                  ; Si fin atteinte, sous-chaîne non trouvée
+    movzx r8d, byte [rdi]          ; Charge un caractère de la chaîne
+    test r8b, r8b                  ; Vérifie si fin de chaîne
+    jz .not_found
 
-    cmp cl, ch                     ; Compare les caractères
-    jne .next_char                 ; Si différent, passe au caractère suivant
+    cmp cl, r8b                    ; Compare les caractères
+    jne .next_outer
 
     inc rdi                        ; Caractère suivant dans la chaîne
     inc rdx                        ; Caractère suivant dans la sous-chaîne
-    jmp .inner_loop                ; Continue la comparaison
+    jmp .inner_loop
 
-.next_char:
+.next_outer:
     mov rdi, rax                   ; Restaure la position
     inc rdi                        ; Caractère suivant
-    jmp .outer_loop                ; Recommence la recherche
+    jmp .outer_loop
 
 .not_found:
     xor rax, rax
 
 .done:
-    leave
     ret
