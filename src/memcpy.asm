@@ -9,25 +9,21 @@ BITS 64
 section .note.GNU-stack noexec
 
 section .text
-    global memcpy
+    global my_memcpy
 
-memcpy:
-    push rbp
-    mov rbp, rsp
+my_memcpy:
     mov rax, rdi                    ; Sauvegarde le pointeur destination pour le retour
     mov rcx, rdx                    ; Met le compteur dans rcx
-
-    cmp rcx, 0                      ; Vérifie si le compteur == 0
-    je .done                        ; Si oui, termine
+    test rcx, rcx                   ; Vérifie si le compteur == 0
+    jz .done
 
 .loop:
-    mov r8b, byte [rsi]            ; Charge un octet depuis la source
-    mov byte [rdi], r8b            ; Copie l'octet vers la destination
+    mov al, byte [rsi]             ; Charge un octet depuis la source
+    mov byte [rdi], al             ; Copie l'octet vers la destination
     inc rsi                        ; Incrémente le pointeur source
     inc rdi                        ; Incrémente le pointeur destination
     dec rcx                        ; Décrémente le compteur
     jnz .loop                      ; Continue tant que rcx != 0
 
 .done:
-    leave
     ret
