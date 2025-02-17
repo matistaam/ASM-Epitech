@@ -12,23 +12,21 @@ section .text
     global strpbrk
 
 strpbrk:
-    push rbp
-    mov rbp, rsp
     mov rax, rdi                     ; Sauvegarde le pointeur de la chaîne
 
 .outer_loop:
-    mov ch, byte [rax]              ; Charge un caractère de la chaîne
-    cmp ch, 0                       ; Vérifie si fin de chaîne
-    je .not_found
+    movzx r9d, byte [rax]           ; Charge un caractère de la chaîne
+    test r9b, r9b                   ; Vérifie si fin de chaîne
+    jz .not_found
 
     mov rdx, rsi                    ; Reset le pointeur de la sous-chaîne
 
 .inner_loop:
-    mov cl, byte [rdx]              ; Charge un caractère de la sous-chaîne
-    cmp cl, 0                       ; Vérifie si fin de la sous-chaîne
-    je .next_char
+    movzx r8d, byte [rdx]           ; Charge un caractère de la sous-chaîne
+    test r8b, r8b                   ; Vérifie si fin de la sous-chaîne
+    jz .next_char
 
-    cmp ch, cl                      ; Compare les caractères
+    cmp r9b, r8b                    ; Compare les caractères
     je .found
 
     inc rdx                         ; Caractère suivant dans la sous-chaîne
@@ -42,5 +40,4 @@ strpbrk:
     xor rax, rax
 
 .found:
-    leave
     ret
