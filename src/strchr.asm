@@ -12,25 +12,23 @@ section .text
     global strchr
 
 strchr:
-    push rbp
-    mov rbp, rsp
-    mov rax, rdi                         ; Sauvergarde l'addresse de la chaîne
+    mov al, sil                          ; Stocke le caractère recherché dans al
+    mov rcx, rdi                         ; Sauvegarde la position de la chaîne
 
 .loop:
-    cmp byte [rax], sil                  ; Compare avec le caractère recherché (rsi = 64-bit & si = 32-bit & sil = 8-bit)
-    je .found                            ; Si égal, saute à .found
+    cmp [rcx], al                        ; Compare le caractère actuel à la recherche
+    je .found
 
-    cmp byte [rax], 0                    ; Vérifie si fin de chaîne
-    je .not_found                        ; Si oui, saute à .not_found
+    cmp byte [rcx], 0                    ; Vérifie si fin de chaîne
+    je .not_found
 
-    inc rax                             ; Caractère suivant
+    inc rcx                             ; Caractère suivant
     jmp .loop                           ; Retourne au début de la boucle
 
 .found:
-    leave
+    mov rax, rcx                         ; Place le résultat dans rax
     ret
 
 .not_found:
     xor rax, rax
-    leave
     ret

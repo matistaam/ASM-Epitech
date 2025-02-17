@@ -12,21 +12,19 @@ section .text
     global memset
 
 memset:
-    push rbp
-    mov rbp, rsp
-    mov rax, rdi                         ; Sauvegarde et retourne le pointeur original
+    mov r8, rdi                          ; Sauvegarde le pointeur original pour le retour
     mov rcx, rdx                         ; Met le compteur n dans rcx
-    mov al, sil                          ; Met le caractère de remplissage dans al
+    test rcx, rcx                        ; Vérifie si n == 0
+    jz .done
 
-    cmp rcx, 0                          ; Vérifie si n == 0
-    je .done                            ; Si oui, termine
+    mov al, sil                          ; Met le caractère à écrire dans al
 
 .loop:
-    mov byte [rdi], sil                 ; Écrit le caractère à l'adresse pointée
+    mov byte [rdi], al                  ; Écrit le caractère à l'adresse pointée
     inc rdi                             ; Incrémente le pointeur
     dec rcx                             ; Décrémente le compteur
     jnz .loop                           ; Continue tant que rcx != 0
 
 .done:
-    leave
+    mov rax, r8                         ; Retourne le pointeur original
     ret
