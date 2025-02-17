@@ -9,9 +9,9 @@ BITS 64
 section .note.GNU-stack noexec
 
 section .text
-    global my_strpbrk
+    global strpbrk
 
-my_strpbrk:
+strpbrk:
     push rbp
     mov rbp, rsp
     mov rax, rdi                     ; Sauvegarde le pointeur de la chaîne
