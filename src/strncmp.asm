@@ -12,37 +12,30 @@ section .text
     global strncmp
 
 strncmp:
-    push rbp
-    mov rbp, rsp
     xor rcx, rcx                    ; Initialise le compteur à 0
-
     test rdx, rdx                   ; Vérifie si n == 0
-    jz .equal                       ; Si oui, les chaînes sont égales
+    jz .equal
 
 .loop:
     cmp rcx, rdx                    ; Compare le compteur avec n
-    je .equal                       ; Si on a atteint n, les chaînes sont égales
+    je .equal
 
-    mov al, byte [rdi + rcx]        ; Charge un caractère de str1
-    mov r8b, byte [rsi + rcx]       ; Charge un caractère de str2
+    movzx rax, byte [rdi + rcx]     ; Charge un caractère de str1
+    movzx r8, byte [rsi + rcx]      ; Charge un caractère de str2
 
     cmp al, r8b                     ; Compare les caractères
-    jne .diff                       ; Si différents, on va à diff
+    jne .diff
 
-    cmp al, 0                       ; Vérifie si fin de chaîne
-    je .equal                       ; Si oui, les chaînes sont égales
+    test al, al                     ; Vérifie si fin de chaîne
+    je .equal
 
     inc rcx                         ; Incrémente le compteur
-    jmp .loop                       ; Continue la boucle
+    jmp .loop
 
 .diff:
-    movzx rax, al                   ; Étend al à 64 bits avec des zéros
-    movzx r8, r8b                   ; Étend r8b à 64 bits avec des zéros
     sub rax, r8                     ; Calcule la différence
-    leave
     ret
 
 .equal:
-    xor rax, rax                    ; Met 0 dans rax (chaînes égales)
-    leave
+    xor rax, rax
     ret
