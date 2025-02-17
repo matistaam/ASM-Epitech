@@ -9,9 +9,9 @@ BITS 64
 section .note.GNU-stack noexec
 
 section .text
-    global my_strcasecmp
+    global strcasecmp
 
-my_strcasecmp:
+strcasecmp:
     xor rcx, rcx                    ; Initialise le compteur à 0
 
 .loop:
