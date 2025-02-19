@@ -19,8 +19,8 @@ memcpy:
     cmp rdi, rsi                    ; Compare les adresses
     je .done
 
-    test rcx, rcx                   ; Vérifie si le compteur == 0
-    jz .done
+    cmp rdx, 0                      ; Vérifie si le compteur == 0
+    je .done
 
 .loop:
     cmp rax, rdx                   ; Compare les adresses

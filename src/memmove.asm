@@ -9,47 +9,46 @@ BITS 64
 section .note.GNU-stack noexec
 
 section .text
-    global memmove
+    global my_memmove
 
-memmove:
+my_memmove:
     push rbp
     mov rbp, rsp
     push rcx
-    push r8
-    push r9
-    mov rax, rdi                    ; Sauvegarde le pointeur destination pour le retour
-    mov rcx, rdx                    ; Met le compteur dans rcx
-
-    test rcx, rcx                   ; Vérifie si le compteur == 0
-    jz .done
-
+    mov rax, 0                      ; Sauvegarde le pointeur destination pour le retour
     cmp rdi, rsi                    ; Compare les adresses
-    jl .forward
+    je .done
 
-    ; Copie arrière vers avant si chevauchement possible
-    lea r8, [rsi + rcx - 1]        ; Pointe à la fin de src
-    lea r9, [rdi + rcx - 1]        ; Pointe à la fin de dest
+    cmp rdx, 0                      ; Vérifie si le compteur == 0
+    je .done
+
+    ; Si dest > src et il y a chevauchement, copie de la fin vers le début
+    mov rcx, rdi
+    sub rcx, rsi
+    cmp rcx, rdx
+    jae .forward                    ; Pas de chevauchement, copie normale
+
+    ; Copie de la fin vers le début
+    mov rcx, rdx
+    dec rcx
 
 .backward:
-    mov al, byte [r8]              ; Charge un octet depuis la fin de la source
-    mov byte [r9], al              ; Copie l'octet vers la fin de la destination
-    dec r8                         ; Décrémente les pointeurs
-    dec r9
+    mov al, [rsi + rcx]            ; Charge un octet depuis la fin de la fin
+    mov [rdi + rcx], al            ; Copie l'octet
     dec rcx                        ; Décrémente le compteur
-    jnz .backward                  ; Continue si pas fini
+    jnz .backward                  ; Continue tant que rcx != 0
     jmp .done
 
 .forward:
-    mov al, byte [rsi]             ; Charge un octet depuis la source
-    mov byte [rdi], al             ; Copie l'octet vers la destination
-    inc rsi                        ; Incrémente le pointeur source
-    inc rdi                        ; Incrémente le pointeur destination
-    dec rcx                        ; Décrémente le compteur
-    jnz .forward                   ; Continue tant que rcx != 0
+    cmp rax, rdx                   ; Compare avec la taille
+    je .done
+    mov cl, [rsi + rax]            ; Charge un octet depuis la source
+    mov [rdi + rax], cl            ; Copie l'octet vers la destination
+    inc rax                        ; Incrémente le compteur
+    jmp .forward                   ; Continue
 
 .done:
-    pop r9
-    pop r8
+    mov rax, rdi
     pop rcx
     leave
     ret
