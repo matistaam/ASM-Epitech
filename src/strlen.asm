@@ -12,6 +12,9 @@ section .text
     global strlen
 
 strlen:
+    push rbp
+    mov rbp, rsp
+    push rdi
     mov rax, rdi                         ; Sauvegarde la position de la chaîne
 
 .loop:
@@ -24,4 +27,6 @@ strlen:
 .done:
     sub rdi, rax                         ; Calcule la longueur de la chaîne (end - start)
     mov rax, rdi                         ; Place le résultat dans rax
+    pop rdi
+    leave
     ret

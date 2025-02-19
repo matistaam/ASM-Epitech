@@ -12,6 +12,9 @@ section .text
     global strrchr
 
 strrchr:
+    push rbp
+    mov rbp, rsp
+    push rcx
     mov rax, rdi                         ; Sauvegarde la position de la chaîne
     xor rcx, rcx                         ; Initialise rcx à NULL (dernière occurence)
 
@@ -36,4 +39,6 @@ strrchr:
 
 .return:
     mov rax, rcx                         ; Met la dernière occurence trouvée dans rax
+    pop rcx
+    leave
     ret

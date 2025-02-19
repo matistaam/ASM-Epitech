@@ -12,14 +12,15 @@ section .text
     global strncmp
 
 strncmp:
-    xor rcx, rcx                    ; Initialise le compteur à 0
-    test rdx, rdx                   ; Vérifie si n == 0
+    push rbp
+    mov rbp, rsp
+    push rcx
+    push r8
+    mov rcx, rdx                    ; Met le compteur dans rcx
+    test rcx, rcx                   ; Vérifie si le compteur == 0
     jz .equal
 
 .loop:
-    cmp rcx, rdx                    ; Compare le compteur avec n
-    je .equal
-
     movzx rax, byte [rdi + rcx]     ; Charge un caractère de str1
     movzx r8, byte [rsi + rcx]      ; Charge un caractère de str2
 
@@ -34,8 +35,14 @@ strncmp:
 
 .diff:
     sub rax, r8                     ; Calcule la différence
+    pop r8
+    pop rcx
+    leave
     ret
 
 .equal:
     xor rax, rax
+    pop r8
+    pop rcx
+    leave
     ret

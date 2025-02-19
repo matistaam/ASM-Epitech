@@ -12,6 +12,11 @@ section .text
     global strcspn
 
 strcspn:
+    push rbp
+    mov rbp, rsp
+    push rcx
+    push rdx
+    push r8
     xor rcx, rcx                    ; Initialise le compteur à 0
 
 .outer_loop:
@@ -38,5 +43,8 @@ strcspn:
 
 .done:
     mov rax, rcx
+    pop r8
+    pop rdx
+    pop rcx
+    leave
     ret
-

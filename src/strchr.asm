@@ -12,6 +12,9 @@ section .text
     global strchr
 
 strchr:
+    push rbp
+    mov rbp, rsp
+    push rcx
     mov al, sil                          ; Stocke le caractère recherché dans al
     mov rcx, rdi                         ; Sauvegarde la position de la chaîne
 
@@ -27,8 +30,12 @@ strchr:
 
 .found:
     mov rax, rcx                         ; Place le résultat dans rax
+    pop rcx
+    leave
     ret
 
 .not_found:
     xor rax, rax
+    pop rcx
+    leave
     ret

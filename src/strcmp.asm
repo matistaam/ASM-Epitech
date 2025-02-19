@@ -12,6 +12,10 @@ section .text
     global strcmp
 
 strcmp:
+    push rbp
+    mov rbp, rsp
+    push rcx
+    push r8
     xor rcx, rcx                    ; Initialise le compteur à 0
 
 .loop:
@@ -29,8 +33,14 @@ strcmp:
 
 .diff:
     sub rax, r8                     ; Calcule la différence
+    pop r8
+    pop rcx
+    leave
     ret
 
 .equal:
     xor rax, rax
+    pop r8
+    pop rcx
+    leave
     ret

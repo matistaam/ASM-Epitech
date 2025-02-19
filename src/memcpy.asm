@@ -12,6 +12,9 @@ section .text
     global memcpy
 
 memcpy:
+    push rbp
+    mov rbp, rsp
+    push rcx
     mov rax, rdi                    ; Sauvegarde le pointeur destination pour le retour
     mov rcx, rdx                    ; Met le compteur dans rcx
     test rcx, rcx                   ; Vérifie si le compteur == 0
@@ -26,4 +29,6 @@ memcpy:
     jnz .loop                      ; Continue tant que rcx != 0
 
 .done:
+    pop rcx
+    leave
     ret

@@ -9,9 +9,14 @@ BITS 64
 section .note.GNU-stack noexec
 
 section .text
-    global strpbrk
+    global my_strpbrk
 
-strpbrk:
+my_strpbrk:
+    push rbp
+    mov rbp, rsp
+    push rdx
+    push r8
+    push r9
     mov rax, rdi                     ; Sauvegarde le pointeur de la chaîne
 
 .outer_loop:
@@ -40,4 +45,8 @@ strpbrk:
     xor rax, rax
 
 .found:
+    pop r9
+    pop r8
+    pop rdx
+    leave
     ret

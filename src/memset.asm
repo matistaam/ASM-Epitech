@@ -12,6 +12,10 @@ section .text
     global memset
 
 memset:
+    push rbp
+    mov rbp, rsp
+    push rcx
+    push r8
     mov r8, rdi                          ; Sauvegarde le pointeur original pour le retour
     mov rcx, rdx                         ; Met le compteur n dans rcx
     test rcx, rcx                        ; Vérifie si n == 0
@@ -27,4 +31,7 @@ memset:
 
 .done:
     mov rax, r8                         ; Retourne le pointeur original
+    pop r8
+    pop rcx
+    leave
     ret

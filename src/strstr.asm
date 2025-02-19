@@ -12,6 +12,11 @@ section .text
     global strstr
 
 strstr:
+    push rbp
+    mov rbp, rsp
+    push rcx
+    push rdx
+    push r8
     mov rax, rdi                   ; Sauvegarde le pointeur de la chaîne pour le retour
     cmp byte [rsi], 0              ; Vérifie si la sous-chaîne est vide
     je .done
@@ -49,4 +54,8 @@ strstr:
     xor rax, rax
 
 .done:
+    pop r8
+    pop rdx
+    pop rcx
+    leave
     ret
