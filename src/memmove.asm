@@ -9,9 +9,9 @@ BITS 64
 section .note.GNU-stack noexec
 
 section .text
-    global my_memmove
+    global memmove
 
-my_memmove:
+memmove:
     push rbp
     mov rbp, rsp
     push rcx
