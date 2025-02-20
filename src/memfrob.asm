@@ -14,6 +14,7 @@ section .text
 memfrob:
     push rbp
     mov rbp, rsp
+    push rcx
 
     xor rcx, rcx              ; Initialise le compteur à 0
     mov rax, rdi              ; Sauvegarde le pointeur pour le retour
@@ -27,5 +28,6 @@ memfrob:
     jmp .loop
 
 .done:
+    pop rcx
     leave
     ret
