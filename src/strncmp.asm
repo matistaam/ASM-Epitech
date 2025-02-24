@@ -15,34 +15,36 @@ strncmp:
     push rbp
     mov rbp, rsp
     push rcx
-    push r8
-    mov rcx, rdx                    ; Met le compteur dans rcx
-    test rcx, rcx                   ; Vérifie si le compteur == 0
+
+    test rdx, rdx                   ; Vérifie si le compteur == 0
     jz .equal
 
 .loop:
-    movzx rax, byte [rdi + rcx]     ; Charge un caractère de str1
-    movzx r8, byte [rsi + rcx]      ; Charge un caractère de str2
+    test rdx, rdx                   ; Vérifie si le compteur == 0
+    jz .equal
 
-    cmp al, r8b                     ; Compare les caractères
+    movzx rax, byte [rdi]           ; Charge un caractère de str1
+    movzx rcx, byte [rsi]           ; Charge un caractère de str2
+
+    cmp al, cl                     ; Compare les caractères
     jne .diff
 
     test al, al                     ; Vérifie si fin de chaîne
-    je .equal
+    jz .equal
 
-    inc rcx                         ; Incrémente le compteur
+    inc rdi                         ; Incrémente le pointeur de str1
+    inc rsi                         ; Incrémente le pointeur de str2
+    dec rdx                         ; Décrémente le compteur
     jmp .loop
 
 .diff:
-    sub rax, r8                     ; Calcule la différence
-    pop r8
-    pop rcx
-    leave
-    ret
+    sub rax, rcx                     ; Calcule la différence
+    jmp .done
 
 .equal:
     xor rax, rax
-    pop r8
+
+.done:
     pop rcx
     leave
     ret
