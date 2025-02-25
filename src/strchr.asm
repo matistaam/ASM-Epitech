@@ -10,7 +10,9 @@ section .note.GNU-stack noexec
 
 section .text
     global strchr
+    global index
 
+index:
 strchr:
     push rbp
     mov rbp, rsp
