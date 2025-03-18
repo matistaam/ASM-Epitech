@@ -34,8 +34,8 @@ $(NAME): $(OBJ)
 	$(CC) $(CFLAGS) -c $< -o $@
 
 exec: $(NAME)
-	$(CC) -o my_program main.c -L. -lasm $(CFLAGS)
-	@LD_LIBRARY_PATH=. ./my_program
+	@$(CC) -o my_program main.c -L. -lasm $(CFLAGS)
+	@LD_LIBRARY_PATH=. LD_PRELOAD=./$(NAME) ./my_program
 
 clean:
 	$(RM) $(OBJ)

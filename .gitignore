@@ -14,5 +14,4 @@ coding-style-reports.log
 tests
 .DS_Store
 *.cor
-main.c
 my_program
